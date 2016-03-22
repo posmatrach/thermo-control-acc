@@ -1,0 +1,12 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'com.miglayout:miglayout-swing:5.0'
+	compile 'org.slf4j:slf4j-api:1.7.19'
+	testCompile 'junit:junit:4.12'
+}
