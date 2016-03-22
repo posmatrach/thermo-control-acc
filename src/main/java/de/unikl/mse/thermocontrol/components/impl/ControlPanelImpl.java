@@ -16,13 +16,13 @@ import javax.swing.WindowConstants;
 
 import de.unikl.mse.thermocontrol.components.spec.ControlPanel;
 import de.unikl.mse.thermocontrol.components.spec.Thermostat;
-import de.unikl.mse.thermocontrol.messaging.UIMessage;
+import de.unikl.mse.thermocontrol.messaging.ControlPanelMessage;
 
 class ControlPanelImpl implements ControlPanel {
 	
 	private final Thermostat thermostat;
 	
-	private final BlockingQueue<UIMessage> messageQueue;
+	private final BlockingQueue<ControlPanelMessage> messageQueue;
 
 	JFrame frame;
 	JLabel measuredTempLbl;
@@ -103,7 +103,7 @@ class ControlPanelImpl implements ControlPanel {
 	}
 
 	@Override
-	public void sendMessage(UIMessage m)
+	public void sendMessage(ControlPanelMessage m)
 	{
 		this.messageQueue.add(m);	
 	}

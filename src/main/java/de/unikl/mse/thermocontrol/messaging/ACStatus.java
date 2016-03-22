@@ -4,18 +4,18 @@ import de.unikl.mse.thermocontrol.components.impl.ACMode;
 
 /**
  * Simple DTO class for transporting Thermostat information
- * to the UI control.
+ * to the Control Panel.
  * 
  * @author Nenad Natosevic <nenad.natoshevic@gmail.com>
  *
  */
-public class UINotification
+public class ACStatus
 {
 	private final int currentTemperature;
 	private final int desiredTemperature;
 	private final ACMode acMode;
 	
-	public UINotification(int currentTemperature, int desiredTemperature, ACMode acMode)
+	public ACStatus(int currentTemperature, int desiredTemperature, ACMode acMode)
 	{
 		this.currentTemperature = currentTemperature;
 		this.desiredTemperature = desiredTemperature;
@@ -32,7 +32,7 @@ public class UINotification
 		return desiredTemperature;
 	}
 
-	public ACMode getAcMode()
+	public ACMode getACMode()
 	{
 		return acMode;
 	}
