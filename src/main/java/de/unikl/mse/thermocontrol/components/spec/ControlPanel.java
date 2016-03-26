@@ -1,9 +1,8 @@
 package de.unikl.mse.thermocontrol.components.spec;
 
-import de.unikl.mse.thermocontrol.messaging.MessageConsumer;
 import de.unikl.mse.thermocontrol.messaging.ControlPanelMessage;
 
-public interface ControlPanel extends MessageConsumer<ControlPanelMessage>
+public interface ControlPanel extends ACComponent<ControlPanelMessage>
 {
-	// No additional methods
+	void setThermostat(Thermostat thermostat);
 }

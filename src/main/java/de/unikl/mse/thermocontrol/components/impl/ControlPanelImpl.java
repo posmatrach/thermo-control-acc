@@ -3,8 +3,6 @@ package de.unikl.mse.thermocontrol.components.impl;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -16,27 +14,27 @@ import javax.swing.WindowConstants;
 
 import de.unikl.mse.thermocontrol.components.spec.ControlPanel;
 import de.unikl.mse.thermocontrol.components.spec.Thermostat;
+import de.unikl.mse.thermocontrol.messaging.BaseMessageConsumer;
 import de.unikl.mse.thermocontrol.messaging.ControlPanelMessage;
+import de.unikl.mse.thermocontrol.messaging.MessageType;
+import de.unikl.mse.thermocontrol.messaging.TemperatureMessage;
 
-class ControlPanelImpl implements ControlPanel {
+public class ControlPanelImpl extends BaseMessageConsumer<ControlPanelMessage> implements ControlPanel {
 	
-	private final Thermostat thermostat;
+	private Thermostat thermostat;
 	
-	private final BlockingQueue<ControlPanelMessage> messageQueue;
+	private final JFrame frame;
+	private final JLabel measuredTempLbl;
+	private final JLabel desiredTempLbl;
+	private final JLabel controlLampLbl;
+	private final JButton incTempBtn;
+	private final JButton decTempBtn;
+	private final GroupLayout layout;
 
-	JFrame frame;
-	JLabel measuredTempLbl;
-	JLabel desiredTempLbl;
-	JLabel controlLampLbl;
-	JButton incTempBtn;
-	JButton decTempBtn;
-	GroupLayout layout;
+	public ControlPanelImpl() 
+	{
 
-	ControlPanelImpl(Thermostat t) {
-		this.thermostat = t;
-		
-		this.messageQueue = new LinkedBlockingQueue<>();
-
+		// GUI code taken from MTC example
 		this.frame = new JFrame("AC Control");
 		this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.layout = new GroupLayout(this.frame.getContentPane());
@@ -79,14 +77,14 @@ class ControlPanelImpl implements ControlPanel {
 		this.incTempBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//ControlPanel.this.myThermostat.modifyDesiredTemp(1);
+				thermostat.sendMessage(new TemperatureMessage(MessageType.SET_TEMPERATURE, new Integer(1)));
 			}
 		});
 
 		this.decTempBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//ControlPanel.this.myThermostat.modifyDesiredTemp(-1);
+				thermostat.sendMessage(new TemperatureMessage(MessageType.SET_TEMPERATURE, new Integer(-1)));
 			}
 		});
 
@@ -103,8 +101,20 @@ class ControlPanelImpl implements ControlPanel {
 	}
 
 	@Override
-	public void sendMessage(ControlPanelMessage m)
+	public void run()
 	{
-		this.messageQueue.add(m);	
+		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void terminate()
+	{
+		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void setThermostat(Thermostat thermostat)
+	{
+		this.thermostat = thermostat;
 	}
 }

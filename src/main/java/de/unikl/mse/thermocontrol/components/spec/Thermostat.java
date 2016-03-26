@@ -1,9 +1,10 @@
 package de.unikl.mse.thermocontrol.components.spec;
 
-import de.unikl.mse.thermocontrol.messaging.MessageConsumer;
 import de.unikl.mse.thermocontrol.messaging.TemperatureMessage;
 
-public interface Thermostat extends MessageConsumer<TemperatureMessage>
+public interface Thermostat extends ACComponent<TemperatureMessage>
 {
-	// No additional methods
+	void setThermoSensor(ThermoSensor thermoSensor);
+	void setACUnit(AirConditioner acUnit);
+	void setControlPanel(ControlPanel controlPanel);
 }

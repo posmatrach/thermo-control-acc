@@ -3,41 +3,37 @@ package de.unikl.mse.thermocontrol.components.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.unikl.mse.thermocontrol.components.spec.ThermoSensor;
-import de.unikl.mse.thermocontrol.messaging.BaseMessage;
 import de.unikl.mse.thermocontrol.messaging.BaseMessageConsumer;
 import de.unikl.mse.thermocontrol.messaging.MessageConsumer;
 import de.unikl.mse.thermocontrol.messaging.MessageType;
 import de.unikl.mse.thermocontrol.messaging.TemperatureMessage;
 import de.unikl.mse.thermocontrol.messaging.ThermoSensorMessage;
 
-public class ThermoSensorImpl extends BaseMessageConsumer<ThermoSensorMessage> implements Runnable, ThermoSensor
+public class ThermoSensorImpl extends BaseMessageConsumer<ThermoSensorMessage> implements ThermoSensor
 {	
 	static private final Logger L = LoggerFactory.getLogger(ThermoSensorImpl.class);
 	
-	private final List<MessageConsumer<TemperatureMessage>> subscribers;
-	
-	private volatile int currentTemperature;
-	
-	private volatile boolean isTerminated = false;
-	
-	public ThermoSensorImpl()
+	static private TemperatureMessage createMessage(double temperature)
 	{
-		this.subscribers = Collections.synchronizedList(new ArrayList<>());
-		this.currentTemperature = 18;
+		return new TemperatureMessage(MessageType.CURRENT_TEMPERATURE, new Integer((int) temperature));
 	}
+	
+	private final List<MessageConsumer<TemperatureMessage>> subscribers = Collections.synchronizedList(new ArrayList<>());
+	
+	private volatile double currentTemperature = 16.0;
+	
+	private volatile boolean terminated = false;
 	
 	@Override
 	public void run()
 	{
 		L.info("* Thermo sensor: running...");
-		while(!isTerminated)
+		while(!terminated)
 		{
 			try
 			{
@@ -45,10 +41,10 @@ public class ThermoSensorImpl extends BaseMessageConsumer<ThermoSensorMessage> i
 				// messages, so we can safely just remove it from queue.
 				// BlockingQueue#take is blocking call, so the rest won't execute, unless there is a message available.
 				messageQueue.take();
-				BaseMessage<Integer> currentTemperatureMessage = createMessage();
+				TemperatureMessage currentTemperatureMessage = createMessage(currentTemperature);
 				
 				// We notify all the subscribers about current temperature.
-				for (MessageConsumer s: subscribers)
+				for (MessageConsumer<TemperatureMessage> s: subscribers)
 					s.sendMessage(currentTemperatureMessage);
 			} catch (InterruptedException e)
 			{
@@ -58,24 +54,22 @@ public class ThermoSensorImpl extends BaseMessageConsumer<ThermoSensorMessage> i
 		L.info("* Thermal sensor: terminating...");
 	}
 	
-	public void setCurrentTemperature(int newTemperature)
+	@Override
+	public synchronized void modifyTemperature(double deltaTemperature)
 	{
-		this.currentTemperature = newTemperature;
+		currentTemperature += deltaTemperature;
+		L.debug(String.format("Measured temperature: %.2f", currentTemperature));
 	}
 	
+	@Override
 	public void addSubscriber(MessageConsumer<TemperatureMessage> subscriber)
 	{
 		subscribers.add(subscriber);
 	}
-	
-	public void stop()
+
+	@Override
+	public void terminate()
 	{
-		this.isTerminated = true;
-	}
-	
-	private BaseMessage<Integer> createMessage()
-	{
-		return new BaseMessage<>(MessageType.CURRENT_TEMPERATURE, new Integer(currentTemperature));
-	
+		this.terminated = true;
 	}
 }
