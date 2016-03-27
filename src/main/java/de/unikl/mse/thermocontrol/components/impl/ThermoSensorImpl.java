@@ -8,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.unikl.mse.thermocontrol.components.spec.ThermoSensor;
-import de.unikl.mse.thermocontrol.messaging.BaseMessageConsumer;
-import de.unikl.mse.thermocontrol.messaging.MessageConsumer;
 import de.unikl.mse.thermocontrol.messaging.MessageType;
 import de.unikl.mse.thermocontrol.messaging.TemperatureMessage;
 import de.unikl.mse.thermocontrol.messaging.ThermoSensorMessage;
+import de.unikl.mse.thermocontrol.messaging.base.BaseMessageConsumer;
+import de.unikl.mse.thermocontrol.messaging.base.MessageConsumer;
 
 public class ThermoSensorImpl extends BaseMessageConsumer<ThermoSensorMessage> implements ThermoSensor
 {	
@@ -58,7 +58,7 @@ public class ThermoSensorImpl extends BaseMessageConsumer<ThermoSensorMessage> i
 	public synchronized void modifyTemperature(double deltaTemperature)
 	{
 		currentTemperature += deltaTemperature;
-		L.debug(String.format("Measured temperature: %.2f", currentTemperature));
+		L.info(String.format("Measured temperature: %.2f", currentTemperature));
 	}
 	
 	@Override

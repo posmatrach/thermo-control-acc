@@ -22,16 +22,26 @@ public class Application
 		
 		ThermoSensor thermoSensor = new ThermoSensorImpl();
 		Thermostat thermostat = new ThermostatImpl();
-		thermoSensor.addSubscriber(thermostat);
 		ControlPanel controlPanel = new ControlPanelImpl();
 		AirConditioner acUnit = new AirConditionerImpl();
 		
+		thermoSensor.addSubscriber(thermostat);
 		thermostat.setACUnit(acUnit);
 		thermostat.setControlPanel(controlPanel);
 		thermostat.setThermoSensor(thermoSensor);
+		controlPanel.setThermostat(thermostat);
 		
 		EnvironmentSim sim = new EnvironmentSim(acUnit, thermoSensor);
 		
 		sim.start();
+		Thread sensorThread = new Thread(thermoSensor);
+		Thread thermostatThread = new Thread(thermostat);
+		Thread acThread = new Thread(acUnit);
+		Thread cpThread = new Thread(controlPanel);
+		
+		sensorThread.start();
+		acThread.start();
+		thermostatThread.start();
+		cpThread.start();
 	}
 }

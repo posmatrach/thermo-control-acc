@@ -1,4 +1,4 @@
-package de.unikl.mse.thermocontrol.messaging;
+package de.unikl.mse.thermocontrol.messaging.base;
 
 public interface MessageConsumer<T extends BaseMessage<?>> 
 {

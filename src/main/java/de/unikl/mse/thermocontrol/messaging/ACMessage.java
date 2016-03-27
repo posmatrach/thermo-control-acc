@@ -1,6 +1,7 @@
 package de.unikl.mse.thermocontrol.messaging;
 
 import de.unikl.mse.thermocontrol.components.impl.ACMode;
+import de.unikl.mse.thermocontrol.messaging.base.BaseMessage;
 
 public class ACMessage extends BaseMessage<ACMode>
 {

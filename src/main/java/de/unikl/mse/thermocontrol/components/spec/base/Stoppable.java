@@ -1,4 +1,4 @@
-package de.unikl.mse.thermocontrol.components.spec;
+package de.unikl.mse.thermocontrol.components.spec.base;
 
 /**
  * Custom counterpart to {@linkRunnable} interface.

@@ -1,6 +1,8 @@
-package de.unikl.mse.thermocontrol.messaging;
+package de.unikl.mse.thermocontrol.messaging.base;
 
 import java.io.Serializable;
+
+import de.unikl.mse.thermocontrol.messaging.MessageType;
 
 public class BaseMessage<T> implements Serializable
 {

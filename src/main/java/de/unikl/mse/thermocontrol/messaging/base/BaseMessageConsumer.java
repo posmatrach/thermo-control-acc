@@ -1,4 +1,4 @@
-package de.unikl.mse.thermocontrol.messaging;
+package de.unikl.mse.thermocontrol.messaging.base;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

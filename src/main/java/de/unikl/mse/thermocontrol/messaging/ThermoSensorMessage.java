@@ -1,6 +1,7 @@
 package de.unikl.mse.thermocontrol.messaging;
 
 import de.unikl.mse.thermocontrol.components.spec.ThermoSensor;
+import de.unikl.mse.thermocontrol.messaging.base.BaseMessage;
 
 /**
  * Message sent to {@link ThermoSensor} in order to trigger

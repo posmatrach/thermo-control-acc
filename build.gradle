@@ -6,8 +6,6 @@ repositories {
 }
 
 dependencies {
-	compile 'com.miglayout:miglayout-swing:5.0'
 	compile 'org.slf4j:slf4j-api:1.7.19'
 	compile 'org.slf4j:slf4j-simple:1.7.19'
-	testCompile 'junit:junit:4.12'
 }

@@ -1,7 +1,7 @@
-package de.unikl.mse.thermocontrol.components.spec;
+package de.unikl.mse.thermocontrol.components.spec.base;
 
-import de.unikl.mse.thermocontrol.messaging.BaseMessage;
-import de.unikl.mse.thermocontrol.messaging.MessageConsumer;
+import de.unikl.mse.thermocontrol.messaging.base.BaseMessage;
+import de.unikl.mse.thermocontrol.messaging.base.MessageConsumer;
 
 /**
  * 

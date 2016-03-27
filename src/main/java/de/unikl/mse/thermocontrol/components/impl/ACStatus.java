@@ -1,6 +1,4 @@
-package de.unikl.mse.thermocontrol.messaging;
-
-import de.unikl.mse.thermocontrol.components.impl.ACMode;
+package de.unikl.mse.thermocontrol.components.impl;
 
 /**
  * Simple DTO class for transporting Thermostat information

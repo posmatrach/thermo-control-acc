@@ -22,7 +22,7 @@ public class EnvironmentSim
 	
 	static private final double OFFSET = 0.1;
 	
-	static private  final int UPDATE_RATE = 250;
+	static private  final int UPDATE_RATE = 500;
 	
 	private final AirConditioner acUnit;
 	
